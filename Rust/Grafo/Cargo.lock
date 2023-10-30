@@ -1,5 +1,0 @@
-version = 3
-
-[[package]]
-name = "Grafo"
-version = "0.1.0"
