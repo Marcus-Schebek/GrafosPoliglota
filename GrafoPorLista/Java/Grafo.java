@@ -20,14 +20,29 @@ public class Grafo {
 
     public void AdicionarAresta(String origem, String destino, int peso) {
         if (vertices.containsKey(origem) && vertices.containsKey(destino)) {
-            vertices.get(origem).AdicionarAresta(destino, peso);
+            vertices.get(origem).AdicionarAresta(vertices.get(origem),vertices.get(destino), peso);
+            vertices.get(destino).AdicionarAresta(vertices.get(destino),vertices.get(origem), peso);
+
         }
     }
 
-    public List<Aresta> ObterArestas(String nomeVertice) {
+     public List<Aresta> ObterArestas(String nomeVertice) {
         if (vertices.containsKey(nomeVertice)) {
-            return vertices.get(nomeVertice).ObterArestas();
+            return vertices.get(nomeVertice).getArestas();
         }
         return null;
+    }
+
+    public void ImprimirGrafo() {
+        for (String nomeVertice : vertices.keySet()) {
+            System.out.print("Vértice " + nomeVertice + " -> ");
+            List<Aresta> arestas = ObterArestas(nomeVertice);
+            if (arestas != null) {
+                for (Aresta aresta : arestas) {
+                    System.out.print("(" + aresta.getDestino().getName() + ", " + aresta.getPeso() + ") ");
+                }
+            }
+            System.out.println();
+        }
     }
 }
