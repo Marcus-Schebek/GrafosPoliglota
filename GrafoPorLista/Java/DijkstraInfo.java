@@ -1,12 +1,8 @@
-import java.util.HashMap;
-import java.util.Map;
-
-public class DijkstraInfo{
+public class DijkstraInfo {
     private Vertice vertice;
     private double distancia;
     private Vertice antecessor;
 
-  
     public DijkstraInfo(Vertice vertice) {
         this.vertice = vertice;
         this.distancia = Double.POSITIVE_INFINITY;
