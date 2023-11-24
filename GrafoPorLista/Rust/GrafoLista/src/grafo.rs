@@ -1,8 +1,22 @@
+use std::collections::hash_map::DefaultHasher;
+use std::hash::{Hash, Hasher};
 use std::collections::HashMap;
 
+#[derive(Clone, Eq, PartialEq)]
 pub struct Vertice {
     nome: String,
     vizinhos: HashMap<String, i32>,
+}
+
+impl Hash for Vertice { // A Recomendação dos Docs do Rust é aplicar uma implementação propria de Hash nesse caso
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        self.nome.hash(state);
+        // Adiciona a hash dos vizinhos para garantir unicidade
+        for (vizinho, peso) in &self.vizinhos {
+            vizinho.hash(state);
+            peso.hash(state);
+        }
+    }
 }
 
 impl Vertice {
@@ -16,6 +30,10 @@ impl Vertice {
     pub fn adicionar_aresta(&mut self, destino: String, peso: i32) {
         self.vizinhos.insert(destino, peso);
     }
+    pub fn get_name(&self) -> &String{
+        &self.nome
+    }
+    
 }
 
 pub struct Aresta {
@@ -69,5 +87,64 @@ impl Grafo {
             }
             println!();
         }
+    }
+    
+}
+
+pub struct DijkstraInfo<Vertice>{
+    vertice: Vertice,
+    antecessor: Option<String>,
+    distancia: i32
+}
+
+impl DijkstraInfo<Vertice>{
+    pub fn new(vertice: Vertice) -> Self{
+        DijkstraInfo{
+            vertice,
+            antecessor: None,
+            distancia: i32::MAX,
+        }
+    }
+
+    pub fn get_vertice(&self) -> &Vertice {
+        &self.vertice
+    }
+    pub fn get_antecessor(&self) -> &Option<String>{
+        &self.antecessor
+    }
+    pub fn get_distancia(&self) -> &i32{
+        &self.distancia
+    }
+
+    pub fn set_vertice(&mut self, vertice: Vertice){
+        self.vertice = vertice;
+    }
+    pub fn set_antecessor(&mut self, antecessor: String){
+        self.antecessor = Some(antecessor);
+    }
+    pub fn set_distancia(&mut self, distancia:i32){
+        self.distancia = distancia;
+    }
+}
+
+pub struct Dijkstra<Vertice, Grafo, DijkstraInfo>{
+    grafo: Grafo,
+    origem: Vertice,
+    destino: Vertice,
+    info_vertices: HashMap<Vertice, DijkstraInfo>
+}
+
+impl Dijkstra<Vertice, Grafo, DijkstraInfo<Vertice>>{
+    pub fn new(grafo: Grafo, origem: Vertice, destino: Vertice) -> Self{
+        Dijkstra{
+            grafo,
+            origem,
+            destino,
+            info_vertices: HashMap::new(),
+        }
+    }
+    pub fn calcular_menor_caminho(&mut self){
+        let origem_nome = self.origem.get_name().clone();  
+        self.info_vertices.get_mut(&self.origem).expect("REASON").set_distancia(0);
     }
 }

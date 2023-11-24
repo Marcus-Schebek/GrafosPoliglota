@@ -1,6 +1,7 @@
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 
 public class Grafo {
     private Map<String, Vertice> vertices;
@@ -17,7 +18,9 @@ public class Grafo {
             System.out.println("Vértice inválido ou limite máximo atingido");
         }
     }
-
+    public List<Vertice> getVertices() {
+        return new ArrayList<>(vertices.values());
+    }
     public void AdicionarAresta(String origem, String destino, int peso) {
         if (vertices.containsKey(origem) && vertices.containsKey(destino)) {
             vertices.get(origem).AdicionarAresta(vertices.get(origem),vertices.get(destino), peso);

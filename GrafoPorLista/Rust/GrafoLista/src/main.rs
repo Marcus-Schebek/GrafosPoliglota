@@ -10,7 +10,5 @@ fn main() {
     grafo.adicionar_aresta("A".to_string(), "B".to_string(), 5);
     grafo.adicionar_aresta("B".to_string(), "C".to_string(), 7);
 
-
-
     grafo.imprimir_grafo();
 }

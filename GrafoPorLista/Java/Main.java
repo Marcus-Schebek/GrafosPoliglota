@@ -13,9 +13,8 @@ public class Main {
         grafo.AdicionarAresta("Camaquã", "Pelotas", 2);
         grafo.AdicionarAresta("Camaquã", "Rio Grande", 5);
 
-
-
-
         grafo.ImprimirGrafo();
+          
+    
     }
 }
